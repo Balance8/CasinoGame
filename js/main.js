@@ -1,7 +1,7 @@
 /*
-1. Code button to execute run code
-2. Run code will execute a random number generator on each of the 9 slot locations 
-    a. After the numbers have been assigned, code will run that uses the random number assigned as an object key location.
+1. Code button to execute the run code
+2. Run code will execute a random number generator on the array of key/pairs.
+    a. Once random finishes, push into game board.
     b. The object key location will corrolate with a picture value.
 3. Arrange the picture components in their correct locations.
 4. Write logic that will understand all predetermined winning conditions and will out put whether those conditions have been met
@@ -25,3 +25,11 @@ IceBox
 /*----- cached element references -----*/
 /*----- event listeners -----*/
 /*----- functions -----*/
+
+$(".roll").click(function () {
+    $('.square').toggleClass('transform-active');
+});
+
+var time = Math.random();
+var red = document.querySelectorall('#red');
+red.style.setProperty('--animation-time', time + 's');
