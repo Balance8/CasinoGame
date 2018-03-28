@@ -21,15 +21,85 @@ IceBox
 
 
 /*----- constants -----*/
+// let lookUp = {
+//     img : 'url(https://i.imgur.com/kaplStJ.png?1)',
+//     img :'url(https://i.imgur.com/RhzsyjQ.png?1)',
+//     img :'url(https://i.imgur.com/CqE49go.png?1)',
+//     img :'url(https://i.imgur.com/XMa4iXa.png?1)',
+//     img :'url(https://i.imgur.com/TI5SSsk.png?1)',
+//     img :'url(https://i.imgur.com/rBNop6u.png?1)',
+//     img :'url(https://i.imgur.com/LKeUpuS.png?1)',
+//     img :'url(https://i.imgur.com/PpypyvQ.png?1)',
+//     img :'url(https://i.imgur.com/qeywvYS.png?1)'
+
+// }
+let lookUp = [
+    'url(https://i.imgur.com/kaplStJ.png?1)',
+    'url(https://i.imgur.com/RhzsyjQ.png?1)',
+    'url(https://i.imgur.com/CqE49go.png?1)',
+    'url(https://i.imgur.com/XMa4iXa.png?1)',
+    'url(https://i.imgur.com/TI5SSsk.png?1)',
+    'url(https://i.imgur.com/rBNop6u.png?1)',
+    'url(https://i.imgur.com/LKeUpuS.png?1)',
+    'url(https://i.imgur.com/PpypyvQ.png?1)',
+    'url(https://i.imgur.com/qeywvYS.png?1)'
+
+]
+
 /*----- app's state (variables) -----*/
+var board, winner
+
 /*----- cached element references -----*/
+var squares = document.querySelectorAll('div span');
 /*----- event listeners -----*/
 /*----- functions -----*/
 
 $(".roll").click(function () {
-    $('.square').toggleClass('transform-active');
+    $('.square').css('background-image', 'url(https://i.imgur.com/D4jPibd.png?1)');
+    $('.square').addClass('transform-active');
+    $('.square').one('webkitAnimationEndoanimationend msAnimationEnd animationend', function (event) {
+        $('.square').removeClass('transform-active')
+
+
+        render();
+        // var idx = parseInt(evt.target.id.replace('pic', ''));
+        // if (board[idx] || winner) return;
+        // // update state (board, turn, winner)
+        // board[idx] = ;
+        // turn *= -1;
+        // winner = getWinner();
+        // // call render
+
+    });
 });
 
-var time = Math.random();
-var red = document.querySelectorall('#red');
-red.style.setProperty('--animation-time', time + 's');
+function render() {
+    let shuffledLookUp = lookUp.shuffle();
+    board.forEach(function (sq, idx) {
+        squares[idx].style.backgroundImage = shuffledLookUp[idx];
+
+    });
+}
+
+
+function initialize() {
+    board = new Array(9).fill(null);
+    winner = null;
+}
+
+initialize();
+
+function weight() {
+    let weightA = [];
+    for (let i = 0; i < n; i++) {
+        weightA.push(lookUp[0])
+    }
+    return [...lookUp, ...weightA]
+}
+
+
+/* Rarity 
+----------------
+
+
+*/
