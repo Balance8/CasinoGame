@@ -47,7 +47,7 @@ let lookUp = [
 ]
 
 /*----- app's state (variables) -----*/
-var board, winner
+var board, winner, common, uncommon, rare, epic, weightedArray
 
 /*----- cached element references -----*/
 var squares = document.querySelectorAll('div span');
@@ -74,9 +74,9 @@ $(".roll").click(function () {
 });
 
 function render() {
-    let shuffledLookUp = lookUp.shuffle();
+    let shuffledArray = weightedArray.shuffle();
     board.forEach(function (sq, idx) {
-        squares[idx].style.backgroundImage = shuffledLookUp[idx];
+        squares[idx].style.backgroundImage = shuffledArray[idx];
 
     });
 }
@@ -89,17 +89,53 @@ function initialize() {
 
 initialize();
 
-function weight() {
+function weightCommon(n) {
     let weightA = [];
     for (let i = 0; i < n; i++) {
         weightA.push(lookUp[0])
+        weightA.push(lookUp[1])
+        weightA.push(lookUp[2])
+    }
+    return [...lookUp, ...weightA]
+}
+function weightUncommon(n) {
+    let weightA = [];
+    for (let i = 0; i < n; i++) {
+        weightA.push(lookUp[3])
+        weightA.push(lookUp[4])
+        weightA.push(lookUp[5])
+    }
+    return [...lookUp, ...weightA]
+}
+function weightRare(n) {
+    let weightA = [];
+    for (let i = 0; i < n; i++) {
+        weightA.push(lookUp[6])
+        weightA.push(lookUp[7])
+    }
+    return [...lookUp, ...weightA]
+}
+function weightEpic(n) {
+    let weightA = [];
+    for (let i = 0; i < n; i++) {
+        weightA.push(lookUp[8])
     }
     return [...lookUp, ...weightA]
 }
 
 
+
 /* Rarity 
 ----------------
-
-
 */
+common = weightCommon(500);
+uncommon = weightUncommon(300);
+rare = weightRare(200);
+epic = weightEpic(100);
+
+weightedArray = common.concat(uncommon, rare, epic);
+
+
+
+
+
