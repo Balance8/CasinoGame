@@ -130,7 +130,7 @@ function weightEpic(n) {
 
 /*----- Rarity -----*/
 
-weightVar = 0;
+weightVar = 1;
 common = weightCommon(weightVar * 100+9);
 uncommon = weightUncommon(weightVar * 50);
 rare = weightRare(weightVar * 25);
