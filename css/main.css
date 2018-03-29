@@ -55,7 +55,7 @@ h1{
     width: 550px;
     display: block;
     color: #90FCE8;
-    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: black;
 
     /* background-color: #90FCE8; */
@@ -75,7 +75,7 @@ h1{
 
     animation-name: fadeInDownBig;
     animation-duration: 3s;
-    animation-delay: 8s;
+    /* animation-delay: 8s; */
     /* animation-iteration-count: infinite; */
     /* animation-timing-function: ease; */
     animation-fill-mode: both;
@@ -139,15 +139,17 @@ h1{
 
 
 .ticTacToe {
-    /* background-image: url(https://i.imgur.com/66oYPtt.png?3); */
-    background-repeat: no-repeat;
-    background-position: center; 
+    background: url(https://i.imgur.com/I7fw29b.png?2) no-repeat center;
   display         : flex;
   justify-content : space-between;
  align-items     : center;
   justify-content : center;
   vertical-align  : center;
   align-content   : center;
+  height: 450px;
+  
+  
+
   
   
   animation-name: fadeInDownBig2;
@@ -172,7 +174,7 @@ h1{
     display : block;
     width   : 125px;
     height  : 125px;
-    /* border  : 2px solid #651248; */
+    border  : 2px solid #651248;
     
     color       : #90FCE8;
     font-size   : 5em;
@@ -181,7 +183,7 @@ h1{
     padding     : 20px;
     -webkit-text-stroke-width: 1.5px;
     -webkit-text-stroke-color: black;
-    background-image: url(https://i.imgur.com/D4jPibd.png?1);
+    background-image: url(https://i.imgur.com/D4jPibd.png?3);
     /* animation-name: spin;
     animation-duration: 3s;
     animation-fill-mode: none;
@@ -205,7 +207,7 @@ h1{
     /* animation-timing-function: ease; */
     animation-fill-mode: both;
   }
-  .roll{
+  /* .roll{
     font-size: 20px;
     width   : 150px;
     height  : 100px;
@@ -216,11 +218,11 @@ h1{
     border-style: solid;
     border-style: solid;
 
-  }
+  } */
 
 .transform-active {
   animation-name: spin;
-    animation-duration: 1s;
+    animation-duration: 700ms;
     animation-fill-mode: none;
     animation-iteration-count: 3;
 }
@@ -230,4 +232,28 @@ from {transform: rotate(0deg)}
 to {transform: rotate(360deg);}
   }
 
+
+  .roll {
+    
+  padding: 15px 25px;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: black;
+  background-color: #B0396C;
+  border: solid black;
+  border-radius: 15px;
+  /* box-shadow: 0 9px #CC2B3D; */
+
+}
+
+.roll:hover {background-color: #2927AF}
+
+.roll:active {
+  background-color: #2927AF;
+  /* box-shadow: 0 5px #CC2B3D;
+  border-style: solid; */
+  transform: translateY(4px);
+}
   

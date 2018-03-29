@@ -18,6 +18,6 @@ Array.prototype.shuffle = function () {
 //     return this;
 // }
 
-let x = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-console.log(x.shuffle());
+// let x = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+// console.log(x.shuffle());
 
