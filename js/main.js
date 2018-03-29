@@ -18,7 +18,7 @@ IceBox
     c. if the counter reaches x value the next press will result in a winning condition
 */
 
-
+/* 0 poro, 1 PENGU, 2 ahri , 3 jinx , 4 tahm, , 5 lux , 6 raka, 7 gnar, 8 teemo
 
 /*----- constants -----*/
 let lookUp = [
@@ -31,63 +31,68 @@ let lookUp = [
     'url("https://i.imgur.com/LKeUpuS.png?1")',
     'url("https://i.imgur.com/PpypyvQ.png?1")',
     'url("https://i.imgur.com/qeywvYS.png?1")'
-
 ]
 
+let pointLookup = {
+    'url("https://i.imgur.com/kaplStJ.png?1")': 5,
+    'url("https://i.imgur.com/RhzsyjQ.png?1")': 5,
+    'url("https://i.imgur.com/CqE49go.png?1")': 20,
+    'url("https://i.imgur.com/XMa4iXa.png?1")': 20,
+    'url("https://i.imgur.com/TI5SSsk.png?1")': 20,
+    'url("https://i.imgur.com/rBNop6u.png?1")': 30,
+    'url("https://i.imgur.com/LKeUpuS.png?1")': 30,
+    'url("https://i.imgur.com/PpypyvQ.png?1")': 100,
+    'url("https://i.imgur.com/qeywvYS.png?1")': 100
+};
+
 /*----- app's state (variables) -----*/
+var healthPoints, shuffledArray;
 var board, winner, common, uncommon, rare, epic, weightedArray, weightVar
 let totalPoints = [];
 /*----- cached element references -----*/
 
 var squares = document.querySelectorAll('div span');
+var health = document.querySelector('header h3');
 
 /*----- event listeners -----*/
 
+
 $(".roll").click(function () {
+    if (healthPoints <= 0) {
+        health.innerHTML = 'You Died!';
+        return;
+    }
+    healthPoints -= 5;
     $('.square').css('background-image', 'url(https://i.imgur.com/bpc6jlg.png?1)');
     $('.square').css('border', 'none');
     $('.square').addClass('transform-active');
     $('.square').one('webkitAnimationEndoanimationend msAnimationEnd animationend', function (event) {
         $('.square').removeClass('transform-active')
         $('.square').css('border', '2px solid #651248');
-
-
-
-        render();
-
-
-
-        // var idx = parseInt(evt.target.id.replace('pic', ''));
-        // if (board[idx] || winner) return;
-        // // update state (board, turn, winner)
-        // board[idx] = ;
-        // turn *= -1;
-        // winner = getWinner();
-        // // call render
-
     });
+    setTimeout(function () {
+        shuffledArray = weightedArray.shuffle();
+        board.forEach(function (sq, idx) {
+            squares[idx].style.backgroundImage = shuffledArray[idx];
+        });
+        checkWinner(squares);
+        render();
+    }, 2100);
 });
 
-console.log(totalPoints);
 /*----- functions -----*/
 
 
-
 function render() {
-    let shuffledArray = weightedArray.shuffle();
-    board.forEach(function (sq, idx) {
-        squares[idx].style.backgroundImage = shuffledArray[idx];
-
-    });
+    health.innerHTML = healthPoints;
 }
-
 
 function initialize() {
     board = new Array(9).fill(null);
     winner = null;
+    healthPoints = 100;
+    render();
 }
-
-initialize();
 
 function weightCommon(n) {
     let weightA = [];
@@ -101,7 +106,7 @@ function weightCommon(n) {
 function weightUncommon(n) {
     let weightA = [];
     for (let i = 0; i < n; i++) {
-        
+
         weightA.push(lookUp[2])
         weightA.push(lookUp[3])
         weightA.push(lookUp[4])
@@ -128,10 +133,11 @@ function weightEpic(n) {
 
 
 
+
 /*----- Rarity -----*/
 
-weightVar = 1;
-common = weightCommon(weightVar * 100+9);
+weightVar = 5;
+common = weightCommon(weightVar * 100 + 9);
 uncommon = weightUncommon(weightVar * 50);
 rare = weightRare(weightVar * 25);
 epic = weightEpic(weightVar * 10);
@@ -143,76 +149,29 @@ console.log(weightedArray);
 
 function checkWinner(sq) {
     let arrayBImages = [];
-    let sum1 = sum2 = sum3 = sum4 = sum5 = sum6 = sum7 = sum8 = sum9 = 0
     for (let i = 0; i < sq.length; i++) {
         arrayBImages.push(sq[i].style.backgroundImage);
     }
-    for (let i = 0; i < arrayBImages.length; i++) {
-        arrayBImages[0] === arrayBImages[i] ? sum1++ :
-            arrayBImages[1] === arrayBImages[i] ? sum2++ :
-                arrayBImages[2] === arrayBImages[i] ? sum3++ :
-                    arrayBImages[3] === arrayBImages[i] ? sum4++ :
-                        arrayBImages[4] === arrayBImages[i] ? sum5++ :
-                            arrayBImages[5] === arrayBImages[i] ? sum6++ :
-                                arrayBImages[6] === arrayBImages[i] ? sum7++ :
-                                    arrayBImages[7] === arrayBImages[i] ? sum8++ :
-                                        arrayBImages[8] === arrayBImages[i] ? sum9++ : "";
-    }
-    sum1 > 3 ? checkLocation(arrayBImages) : "";
-    sum2 > 3 ? checkLocation(arrayBImages) : "";
-    sum3 > 3 ? checkLocation(arrayBImages) : "";
-    sum4 > 3 ? checkLocation(arrayBImages) : "";
-    sum5 > 3 ? checkLocation(arrayBImages) : "";
-    sum6 > 3 ? checkLocation(arrayBImages) : "";
-    sum7 > 3 ? checkLocation(arrayBImages) : "";
-    sum8 > 3 ? checkLocation(arrayBImages) : "";
-    sum9 > 3 ? checkLocation(arrayBImages) : "";
-    // for (let i = 1; i < arrayBImages.length; i++) {
-    //         arrayBImages[1] === arrayBImages[i] ? sum2++ : "";
-    // }
-    // return arrayBImages;
-    return console.log(sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8, sum9);
-    // div1.style.backgroundImage === div2.style.backgroundImage;
+
+    healthPoints += checkLocation(arrayBImages);
 }
 
 function checkLocation(arr) {
-    var totalTempPoints = null;
-    var pointVal = null;
-    // console.log(arr[0]);
-    // console.log(lookUp[0]);
+    var totalTempPoints = 0;
+    var pointVal = 0;
 
-    // console.log(arr[0].toString());
+   
+    if (arr[0] === arr[1] && arr[1] === arr[2] && arr[0] === arr[2]) totalTempPoints += pointLookup[arr[0]];
+    if (arr[3] === arr[4] && arr[4] === arr[5] && arr[3] === arr[5]) totalTempPoints += pointLookup[arr[3]];
+    if (arr[6] === arr[7] && arr[7] === arr[8] && arr[6] === arr[8]) totalTempPoints += pointLookup[arr[6]];
+    if (arr[0] === arr[4] && arr[4] === arr[8] && arr[0] === arr[8]) totalTempPoints += pointLookup[arr[0]];
+    if (arr[6] === arr[4] && arr[4] === arr[2] && arr[6] === arr[2]) totalTempPoints += pointLookup[arr[6]];
+    if (arr[0] === arr[3] && arr[3] === arr[6] && arr[0] === arr[6]) totalTempPoints += pointLookup[arr[0]];
+    if (arr[1] === arr[4] && arr[4] === arr[7] && arr[1] === arr[7]) totalTempPoints += pointLookup[arr[1]];
+    if (arr[2] === arr[5] && arr[5] === arr[8] && arr[2] === arr[8]) totalTempPoints += pointLookup[arr[2]];
 
-    for (let i = 0; i < arr.length; i++) {
-        arr[0] === lookUp[i] ? pointVal = 3 :
-            arr[1] === lookUp[i] ? pointVal = 10 :
-                arr[2] === lookUp[i] ? pointVal = 10 :
-                    arr[3] === lookUp[i] ? pointVal = 10 :
-                        arr[4] === lookUp[i] ? pointVal = 10 :
-                            arr[5] === lookUp[i] ? pointVal = 10 :
-                                arr[6] === lookUp[i] ? pointVal = 10 :
-                                    arr[7] === lookUp[i] ? pointVal = 10 :
-                                        arr[8] === lookUp[i] ? pointVal = 10 : console.log('test');
-    }
-
-
-
-    arr[0] === arr[1] && arr[1] === arr[2] ? totalTempPoints += pointVal : console.log('lose');
-    arr[3] === arr[4] && arr[4] === arr[5] ? totalTempPoints += pointVal : console.log('lose');
-    arr[6] === arr[7] && arr[7] === arr[8] ? totalTempPoints += pointVal : console.log('lose');
-    arr[0] === arr[4] && arr[4] === arr[8] ? totalTempPoints += pointVal : console.log('lose');
-    arr[6] === arr[4] && arr[4] === arr[2] ? totalTempPoints += pointVal : console.log('lose');
-    arr[0] === arr[3] && arr[3] === arr[6] ? totalTempPoints += pointVal : console.log('lose');
-    arr[1] === arr[4] && arr[4] === arr[7] ? totalTempPoints += pointVal : console.log('lose');
-    arr[2] === arr[5] && arr[5] === arr[8] ? totalTempPoints += pointVal : console.log('lose');
-
-    return totalPoints.push(totalTempPoints);
+    console.log(totalTempPoints);
+    return totalTempPoints;
 }
-// console.log(squares[0].style.backgroundImage);
-// console.log(squares[1].style.backgroundImage);
 
-// console.log(checkWinner(squares));
-
-
-
-/*----- app's state (variables) -----*/
+initialize();
